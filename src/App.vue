@@ -67,6 +67,11 @@ export default {
         );
       }
 
+      if (this.filterColorId) {
+        filteredProducts = filteredProducts.filter(
+          (product) => product.colors.includes(this.filterColorId),
+        );
+      }
       return filteredProducts;
     },
     productsToShow() {
