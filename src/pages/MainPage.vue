@@ -10,9 +10,7 @@
     </div>
 
     <div class="content__catalog">
-      <ProductFilter :price-from.sync="filterPriceFrom"
-       :price-to.sync="filterPriceTo" :category-id.sync="filterCategoryId"
-        :color-id.sync="filterColorId"/>
+      <ProductFilter :filter-value.sync="filterValue" />
 
       <section class="catalog">
 
@@ -35,40 +33,42 @@ export default {
   components: { ProductList, BasePagination, ProductFilter },
   data() {
     return {
-      filterPriceFrom: 0,
-      filterPriceTo: 0,
-      filterCategoryId: 0,
-      filterColorId: 0,
       page: 1,
       productsPerPage: 3,
       products,
+      filterValue: {
+        filterPriceFrom: 0,
+        filterPriceTo: 0,
+        filterCategoryId: 0,
+        filterColorId: 0,
+      },
     };
   },
   computed: {
     filteredProducts() {
       let filteredProducts = products;
 
-      if (this.filterPriceFrom > 0) {
+      if (this.filterValue.filterPriceFrom > 0) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.price > this.filterPriceFrom,
+          (product) => product.price > this.filterValue.filterPriceFrom,
         );
       }
 
-      if (this.filterPriceTo > 0) {
+      if (this.filterValue.filterPriceTo > 0) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.price < this.filterPriceTo,
+          (product) => product.price < this.filterValue.filterPriceTo,
         );
       }
 
-      if (this.filterCategoryId) {
+      if (this.filterValue.filterCategoryId) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.categoryID === this.filterCategoryId,
+          (product) => product.categoryID === this.filterValue.filterCategoryId,
         );
       }
 
-      if (this.filterColorId) {
+      if (this.filterValue.filterColorId) {
         filteredProducts = filteredProducts.filter(
-          (product) => product.colors.includes(this.filterColorId),
+          (product) => product.colors.includes(this.filterValue.filterColorId),
         );
       }
       return filteredProducts;

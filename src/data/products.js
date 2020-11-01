@@ -4,7 +4,7 @@ export default [
     categoryID: 2,
     colors: [1, 2, 5],
     title: 'Смартфон APPLE iPhone 11 64Gb, MWLT2RU/A',
-    price: '54990',
+    price: 54990,
     image: 'img/iphone.jpg',
   },
   {
@@ -12,7 +12,7 @@ export default [
     categoryID: 1,
     colors: [1, 6, 7],
     title: 'МФУ лазерный PANTUM M6500W',
-    price: '10990',
+    price: 10990,
     image: 'img/mfu1.jpg',
   },
   {
@@ -20,7 +20,7 @@ export default [
     categoryID: 3,
     colors: [1, 2, 3],
     title: 'Ноутбук ACER Aspire 7 A715-75G-56ZT',
-    price: '62390',
+    price: 62390,
     image: 'img/acer.jpg',
   },
   {
@@ -28,7 +28,7 @@ export default [
     categoryID: 3,
     colors: [4, 5, 6],
     title: 'Ноутбук APPLE MacBook Pro 16"',
-    price: '234790',
+    price: 234790,
     image: 'img/apple.jpg',
   },
   {
@@ -36,7 +36,7 @@ export default [
     categoryID: 1,
     colors: [1, 2, 7],
     title: 'МФУ лазерный PANTUM M6500W, A4, лазерный, черный',
-    price: '10990',
+    price: 10990,
     image: 'img/mfu2.jpg',
   },
   {
@@ -44,7 +44,7 @@ export default [
     categoryID: 4,
     colors: [1, 3, 5],
     title: 'Телевизор XIAOMI Mi TV 4A 32, 31.5", HD READY',
-    price: '11990',
+    price: 11990,
     image: 'img/xiaomy_tv.jpg',
   },
   {
@@ -52,7 +52,7 @@ export default [
     categoryID: 4,
     colors: [1, 2, 4],
     title: 'QLED телевизор SAMSUNG QE55Q80TAUXRU',
-    price: '90230',
+    price: 90230,
     image: 'img/samsung_tv.jpg',
   },
   {
@@ -60,7 +60,7 @@ export default [
     categoryID: 6,
     colors: [1, 3, 7],
     title: 'Снегоуборщик ИНТЕРСКОЛ СМБ-650Э',
-    price: '38990',
+    price: 38990,
     image: 'img/interscol.jpg',
   },
   {
@@ -68,7 +68,7 @@ export default [
     categoryID: 6,
     colors: [1, 3, 6],
     title: 'Подметательная машина PATRIOT MS 70',
-    price: '8290',
+    price: 8290,
     image: 'img/patriot.jpg',
   },
   {
@@ -76,7 +76,7 @@ export default [
     categoryID: 5,
     colors: [1, 2, 5],
     title: 'Цифровой фотоаппарат CANON PowerShot SX540 HS',
-    price: '21800',
+    price: 21800,
     image: 'img/canon.jpg',
   },
   {
@@ -84,7 +84,7 @@ export default [
     categoryID: 5,
     colors: [1, 5, 6],
     title: 'Фотоаппарат SONY Alpha A7 II body,',
-    price: '110120',
+    price: 110120,
     image: 'img/sony.jpg',
   },
   {
@@ -92,7 +92,7 @@ export default [
     categoryID: 2,
     colors: [1, 5, 7],
     title: 'Смартфон SAMSUNG Galaxy A40 64Gb, SM-A405F',
-    price: '12990',
+    price: 12990,
     image: 'img/galaxy.jpg',
   },
 ];

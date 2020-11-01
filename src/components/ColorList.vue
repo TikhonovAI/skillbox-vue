@@ -4,9 +4,9 @@
               <li class="colors__item" v-for="(itemColor, index) in itemColors" :key="index">
                 <label class="colors__label">
                   <input class="colors__radio sr-only"
-                  type="radio" :value="colorsLista(itemColor)" v-model="color">
+                  type="radio" :value="ItemColorsList(itemColor)" v-model="color">
                   <span class="colors__value"
-                   v-bind:style="{ backgroundColor: colorsLista(itemColor) }">
+                   v-bind:style="{ backgroundColor: ItemColorsList(itemColor) }">
                   </span>
                 </label>
               </li>
@@ -29,10 +29,7 @@ export default {
     };
   },
   methods: {
-    colorsListf(itemColors) {
-      return itemColors;
-    },
-    colorsLista(item) {
+    ItemColorsList(item) {
       return colors.filter((someColor) => someColor.id === item).[0].value;
     },
   },

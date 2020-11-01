@@ -7,12 +7,12 @@
             <legend class="form__legend">Цена</legend>
             <label class="form__label form__label--price">
               <input class="form__input" type="text" name="min-price"
-               v-model.number="currentPriceFrom">
+               v-model.number="currentFilterValue.filterPriceFrom">
               <span class="form__value">От</span>
             </label>
             <label class="form__label form__label--price">
               <input class="form__input" type="text" name="max-price"
-               v-model.number="currentPriceTo">
+               v-model.number="currentFilterValue.filterPriceTo">
               <span class="form__value">До</span>
             </label>
           </fieldset>
@@ -21,7 +21,7 @@
             <legend class="form__legend">Категория</legend>
             <label class="form__label form__label--select">
               <select class="form__select" type="text" name="category"
-               v-model.number="currentCategoryId">
+               v-model.number="currentFilterValue.filterCategoryId">
                 <option value="0">Все категории</option>
                 <option :value="category.id" v-for="category in categories"
                  :key="category.id">{{ category.title }}</option>
@@ -36,7 +36,7 @@
                 <label class="colors__label">
                   <input class="colors__radio sr-only"
                    type="radio" name="color" :value="color.id"
-                    v-model.number="currentColorID" checked="">
+                    v-model.number="currentFilterValue.filterColorId" checked="">
                   <span class="colors__value" :style="{ backgroundColor: color.value }">
                   </span>
                 </label>
@@ -124,13 +124,15 @@ import colors from '../data/color';
 export default {
   data() {
     return {
-      currentPriceFrom: 0,
-      currentPriceTo: 0,
-      currentCategoryId: 0,
-      currentColorID: 0,
+      currentFilterValue: {
+        filterPriceFrom: 0,
+        filterPriceTo: 0,
+        filterCategoryId: 0,
+        filterColorId: 0,
+      },
     };
   },
-  props: ['priceFrom', 'priceTo', 'categoryId', 'colorId'],
+  props: ['filterValue'],
   computed: {
     categories() {
       return categories;
@@ -140,31 +142,21 @@ export default {
     },
   },
   watch: {
-    priceFrom(value) {
-      this.currentPriceFrom = value;
-    },
-    priceTo(value) {
-      this.currentPriceTo = value;
-    },
-    categoryId(value) {
-      this.currentCategoryId = value;
-    },
-    colorId(value) {
-      this.currentColorID = value;
+    filterValue(value) {
+      this.currentFilterValue = value;
     },
   },
   methods: {
     submit() {
-      this.$emit('update:priceFrom', this.currentPriceFrom);
-      this.$emit('update:priceTo', this.currentPriceTo);
-      this.$emit('update:categoryId', this.currentCategoryId);
-      this.$emit('update:colorId', this.currentColorID);
+      this.$emit('update:filterValue', this.currentFilterValue);
     },
     reset() {
-      this.$emit('update:priceFrom', 0);
-      this.$emit('update:priceTo', 0);
-      this.$emit('update:categoryId', 0);
-      this.$emit('update:colorId', 0);
+      this.$emit('update:filterValue', {
+        filterPriceFrom: 0,
+        filterPriceTo: 0,
+        filterCategoryId: 0,
+        filterColorId: 0,
+      });
     },
   },
 };
