@@ -37,7 +37,7 @@
                   <input class="colors__radio sr-only"
                    type="radio" name="color" :value="color.id"
                     v-model.number="currentFilterValue.filterColorId" checked="">
-                  <span class="colors__value" :style="{ backgroundColor: color.value }">
+                  <span class="colors__value" :style="{ backgroundColor: color.code }">
                   </span>
                 </label>
               </li>
@@ -118,12 +118,15 @@
 </template>
 
 <script>
-import categories from '../data/category';
-import colors from '../data/color';
+import axios from 'axios';
+import { API_BAZE_URL } from '@/config';
 
 export default {
   data() {
     return {
+      colorListData: null,
+      categoriesData: null,
+
       currentFilterValue: {
         filterPriceFrom: 0,
         filterPriceTo: 0,
@@ -135,10 +138,10 @@ export default {
   props: ['filterValue'],
   computed: {
     categories() {
-      return categories;
+      return this.categoriesData ? this.categoriesData.items : [];
     },
     colorList() {
-      return colors;
+      return this.colorListData ? this.colorListData.items : [];
     },
   },
   watch: {
@@ -147,6 +150,14 @@ export default {
     },
   },
   methods: {
+    getColorList() {
+      axios.get(`${API_BAZE_URL}api/colors`)
+        .then((response) => { this.colorListData = response.data; });
+    },
+    getCategoriesData() {
+      axios.get(`${API_BAZE_URL}api/productCategories`)
+        .then((response) => { this.categoriesData = response.data; });
+    },
     submit() {
       this.$emit('update:filterValue', this.currentFilterValue);
     },
@@ -158,6 +169,10 @@ export default {
         filterColorId: 0,
       });
     },
+  },
+  created() {
+    this.getColorList();
+    this.getCategoriesData();
   },
 };
 </script>

@@ -1,19 +1,19 @@
 <template>
     <li class="cart__item product" >
               <div class="product__pic">
-                <img :src="item.product.image" width="120" height="120"
-                 srcset="img/phone-square-3@2x.jpg 2x" alt="item.product.title">
+                <img :src="item.image" width="120" height="120"
+                 srcset="img/phone-square-3@2x.jpg 2x" :alt="item.cartProduct.title">
               </div>
               <h3 class="product__title">
-                {{ item.product.title }}
+                {{ item.cartProduct.title }}
               </h3>
               <span class="product__code">
-                Артикул: {{ item.product.id }}
+                Артикул: {{ item.cartProduct.id }}
               </span>
 
               <div class="product__counter form__counter">
                 <button type="button" aria-label="Убрать один товар"
-                 @click.prevent="decreaseCartProductAmount(item.amount)">
+                 @click.prevent="decreaseCartProductAmount(item.amount)" :disabled="amount<=1">
                   <svg width="10" height="10" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
@@ -30,11 +30,12 @@
               </div>
 
               <b class="product__price">
-                {{ (item.product.price * item.amount) | numberFormat }} ₽
+                {{ (item.cartProduct.price * item.amount) | numberFormat }} ₽
               </b>
 
               <button class="product__del button-del" type="button"
-               aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(item.productId)">
+               aria-label="Удалить товар из корзины"
+                @click.prevent="deleteCartProduct(item.cartProduct.id)">
                 <svg width="20" height="20" fill="currentColor">
                   <use xlink:href="#icon-close"></use>
                 </svg>
@@ -44,7 +45,7 @@
 
 <script>
 import numberFormat from '@/helpers/numberFormat';
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   filters: {
@@ -57,24 +58,21 @@ export default {
         return this.item.amount;
       },
       set(value) {
-        this.$store.commit('updateCartProductAmount', { productId: this.item.productId, amount: value });
+        this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
       },
     },
   },
   methods: {
-    ...mapMutations({ deleteProduct: 'deleteCartProduct' }),
+    ...mapActions(['deleteCartProduct']),
 
     increaseCartProductAmount(value) {
       const newAmount = value + 1;
-      this.$store.commit('updateCartProductAmount', { productId: this.item.productId, amount: newAmount });
+      this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: newAmount });
     },
 
     decreaseCartProductAmount(value) {
-      let newAmount = value;
-      if (value > 0) {
-        newAmount = value - 1;
-      }
-      this.$store.commit('updateCartProductAmount', { productId: this.item.productId, amount: newAmount });
+      const newAmount = value - 1;
+      this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: newAmount });
     },
   },
 };

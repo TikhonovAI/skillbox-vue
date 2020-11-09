@@ -1,6 +1,6 @@
 <template>
   <main class="content container">
-    <div class="content__top">
+    <div class="content__top" >
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link" href="index.html">
@@ -22,7 +22,21 @@
       </span>
     </div>
 
-    <section class="cart">
+     <div class="cart" v-if="this.getProductsLoading">Загрузка товара...
+       <div class="caption">
+              <div class="cube-loader">
+                <div class="cube loader-1"></div>
+                <div class="cube loader-2"></div>
+                <div class="cube loader-4"></div>
+                <div class="cube loader-3"></div>
+              </div>
+      </div>
+    </div>
+
+    <div class="cart" v-else-if="this.getProductsLoadingFailed">
+    Ошибка при загрузке</div>
+
+    <section class="cart" v-else>
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
@@ -60,7 +74,14 @@ export default {
     numberFormat,
   },
   computed: {
-    ...mapGetters(['cartDetailedProducts', 'cartTotalPrice']),
+    ...mapGetters(['cartDetailedProducts', 'cartTotalPrice', 'productsLoading', 'productsLoadingFailed']),
+
+    getProductsLoading() {
+      return this.productsLoading;
+    },
+    getProductsLoadingFailed() {
+      return this.productsLoadingFailed;
+    },
   },
 };
 </script>

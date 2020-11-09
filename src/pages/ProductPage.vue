@@ -1,5 +1,16 @@
 <template>
-   <main class="content container">
+  <div class="content container" v-if="productLoading">Загрузка товара...
+    <div class="caption">
+              <div class="cube-loader">
+                <div class="cube loader-1"></div>
+                <div class="cube loader-2"></div>
+                <div class="cube loader-4"></div>
+                <div class="cube loader-3"></div>
+              </div>
+    </div>
+  </div>
+  <div class="content container" v-else-if="productLoadingFailed">Ошибка при загрузке</div>
+   <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -80,7 +91,9 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
+                <button type="button" aria-label="Убрать один товар"
+                 @click.prevent="decreaseProductAmount(productAmount)"
+                  :disabled="(productAmount)<=1">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
@@ -88,17 +101,21 @@
 
                 <input type="text" v-model.number="productAmount">
 
-                <button type="button" aria-label="Добавить один товар">
+                <button type="button" aria-label="Добавить один товар"
+                 @click.prevent="increaseProductAmount(productAmount)">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-plus"></use>
                   </svg>
                 </button>
               </div>
 
-              <button class="button button--primery" type="submit">
+              <button class="button button--primery" type="submit" :disabled="producrAddSending">
                 В корзину
               </button>
             </div>
+
+            <div v-show="productAdded">Товар добавлен в корзину</div>
+            <div v-show="producrAddSending">Добавляем товар в корзину...</div>
           </form>
         </div>
       </div>
@@ -159,36 +176,74 @@
 
 <script>
 import gotoPage from '@/helpers/gotoPage';
+import axios from 'axios';
+import { API_BAZE_URL } from '@/config';
 import numberFormat from '@/helpers/numberFormat';
-import products from '@/data/products';
-import categories from '@/data/category';
 import colorsList from '@/components/ColorList.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: { colorsList },
   data() {
     return {
       productAmount: 1,
+      productData: null,
+      productLoading: false,
+      productLoadingFailed: false,
+
+      productAdded: false,
+      producrAddSending: false,
     };
   },
   filters: {
     numberFormat,
   },
   methods: {
+    ...mapActions(['addProductToCart', 'loadCart']),
+
     gotoPage,
     addToCart() {
-      this.$store.commit(
-        'addProductToCart',
-        { productId: this.product.id, amount: this.productAmount },
-      );
+      this.productAdded = false;
+      this.producrAddSending = true;
+
+      this.addProductToCart({ productId: this.product.id, amount: this.productAmount })
+        .then(() => {
+          this.productAdded = true;
+          this.producrAddSending = false;
+        });
+    },
+    loadProduct() {
+      this.productLoading = true;
+      this.loadProductsTimer = setTimeout(() => {
+        axios.get(`${API_BAZE_URL}api/products/${this.$route.params.id}`)
+          .then((response) => { this.productData = response.data; })
+          .catch(() => { this.productLoadingFailed = true; })
+          .then(() => { this.productLoading = false; });
+      }, 1000);
+    },
+    increaseProductAmount(value) {
+      this.productAmount = value + 1;
+    },
+    decreaseProductAmount(value) {
+      this.productAmount = value - 1;
     },
   },
   computed: {
     product() {
-      return products.find((product) => product.id === +this.$route.params.id);
+      return this.productData
+        ? ({ ...this.productData, image: this.productData.image.file.url })
+        : [];
     },
     category() {
-      return categories.find((category) => category.id === this.product.categoryID);
+      return this.productData ? this.productData.category : [];
+    },
+  },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true,
     },
   },
 };
