@@ -96,8 +96,9 @@ export default {
     page() {
       this.loadProducts();
     },
-    filterValue() {
-      this.loadProducts();
+    filterValue: {
+      handler: 'loadProducts',
+      deep: true,
     },
   },
   created() {

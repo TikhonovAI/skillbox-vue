@@ -146,7 +146,7 @@ export default {
   },
   watch: {
     filterValue(value) {
-      this.currentFilterValue = value;
+      this.currentFilterValue = { ...value };
     },
   },
   methods: {
