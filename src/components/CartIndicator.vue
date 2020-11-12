@@ -1,5 +1,5 @@
 <template>
-  <div class="header__cart" v-if="this.getProductsLoading">
+  <div class="header__cart" v-if="this.productsLoading">
        <div class="caption">
               <div class="cube-loader-header">
                 <div class="cube loader-1"></div>
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="header__cart" v-else-if="this.getProductsLoadingFailed">
+    <div class="header__cart" v-else-if="this.productsLoadingFailed">
     Ошибка при загрузке</div>
 
   <router-link class="header__cart" aria-label="Корзина с товарами" :to="{name: 'cart'}" v-else>
@@ -28,13 +28,6 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters(['productsLoading', 'productsLoadingFailed']),
-
-    getProductsLoading() {
-      return this.productsLoading;
-    },
-    getProductsLoadingFailed() {
-      return this.productsLoadingFailed;
-    },
   },
 };
 </script>

@@ -22,7 +22,7 @@
       </span>
     </div>
 
-     <div class="cart" v-if="this.getProductsLoading">Загрузка товара...
+     <div class="cart" v-if="this.productsLoading">Загрузка товара...
        <div class="caption">
               <div class="cube-loader">
                 <div class="cube loader-1"></div>
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div class="cart" v-else-if="this.getProductsLoadingFailed">
+    <div class="cart" v-else-if="this.productsLoadingFailed">
     Ошибка при загрузке</div>
 
     <section class="cart" v-else>
@@ -52,9 +52,10 @@
             Итого: <span>{{ this.cartTotalPrice | numberFormat }} ₽</span>
           </p>
 
-          <button class="cart__button button button--primery" type="submit">
+          <router-link tag="button" :to="{name: 'order'}"
+           class="cart__button button button--primery" type="submit">
             Оформить заказ
-          </button>
+          </router-link>
         </div>
       </form>
     </section>
@@ -75,13 +76,6 @@ export default {
   },
   computed: {
     ...mapGetters(['cartDetailedProducts', 'cartTotalPrice', 'productsLoading', 'productsLoadingFailed']),
-
-    getProductsLoading() {
-      return this.productsLoading;
-    },
-    getProductsLoadingFailed() {
-      return this.productsLoadingFailed;
-    },
   },
 };
 </script>
