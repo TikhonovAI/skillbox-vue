@@ -19,7 +19,7 @@
         </li>
       </ul>
 
-      <h1 class="content__title">
+      <h1 class="content__title" v-if="orderInfo">
         Заказ оформлен <span>№ {{ this.orderInfo.id }}</span>
       </h1>
     </div>
@@ -47,7 +47,7 @@
             Наши менеджеры свяжутся с&nbsp;Вами в&nbsp;течение часа для уточнения деталей доставки.
           </p>
 
-          <ul class="dictionary">
+          <ul class="dictionary" v-if="this.orderInfo">
             <li class="dictionary__item">
               <span class="dictionary__key">
                 Получатель
@@ -92,12 +92,12 @@
         </div>
 
         <div class="cart__block">
-          <ul class="cart__orders">
+          <ul class="cart__orders" v-if="this.orderInfo">
             <OrderCartItem v-for="item in this.orderInfo.basket.items"
              :key="item.id" :item="item.product" :amount="item.quantity"/>
           </ul>
 
-          <div class="cart__total">
+          <div class="cart__total" v-if="this.orderInfo">
             <p>Доставка: <b>500 ₽</b></p>
             <p>Итого: <b>{{ this.orderInfo.basket.items.length }}</b> товара на сумму <b>
               {{ this.orderInfo.totalPrice | numberFormat }} ₽</b></p>
